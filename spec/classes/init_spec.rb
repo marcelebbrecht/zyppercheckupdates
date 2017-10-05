@@ -1,6 +1,6 @@
 require 'spec_helper'
-describe 'zyppercheckupdates' do
+describe 'zypper' do
   context 'with default values for all parameters' do
-    it { should contain_class('zyppercheckupdates') }
+    it { should contain_class('zypper') }
   end
 end

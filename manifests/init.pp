@@ -1,7 +1,7 @@
-# Class: zyppercheckupdates
+# Class: zypper
 # ===========================
 #
-# Full description of class zyppercheckupdates here.
+# Full description of class zypper here.
 #
 # Parameters
 # ----------
@@ -28,7 +28,7 @@
 # --------
 #
 # @example
-#    class { 'zyppercheckupdates':
+#    class { 'zypper':
 #      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
 #    }
 #
@@ -42,50 +42,36 @@
 #
 # Copyright 2017 Your name here, unless otherwise noted.
 #
-class zyppercheckupdates {
-        file {
-                "zypper_check_updates":
-                        ensure => 'file',
-                        content => "#!/bin/bash
-PATH='/root/perl5/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/opt/puppetlabs/bin:/root/bin'
-LANG=C
+class zypper (
+	Hash $sources                 = $zypper::sources,
+	Optional[Boolean] $purge      = $zapper::purge
+)
+{
+	$keep = inline_template('<%= 
+		def find_tag_val(hash, tag)
+			returnarray = []
+			hash.map do |k, v|
+				return v if k.to_sym == tag
+				vr = find_tag_val(v, tag) if v.kind_of?(Hash)
+				returnarray.push(vr + ".repo") if vr
+			end
+			return returnarray
+		end 
+		find_tag_val(@sources, :file)
+	%>')
 
-/usr/bin/printf ''
-if [ \$(zypper -qn lu | grep \$(arch) | cut -d '|' -f 3 | sed 's/ //g' | wc -l) -eq 0 ]; then
-	printf no > /tmp/zypperupdates
-	printf none > /tmp/zypperupdateslist
-else
-	printf yes > /tmp/zypperupdates
-	zypper -qn lu | grep $(arch) | cut -d '|' -f 3 | sed 's/ //g' | tr '\\n' ' ' > /tmp/zypperupdateslist
-fi
+	file { 'repos.d':
+		ensure  => directory,
+		path    => '/etc/zypp/repos.d',
+		owner   => root,
+		group   => root,
+		mode    => '0755',
+		purge   => $purge,
+		recurse => $purge,
+		ignore  => $keep,
+	}
 
-if [ \$(zypper -qn lp | grep -v security | grep -v '+--'| grep '|' | grep -v 'tatus' | cut -d '|' -f 2 | sed 's/ //g' | wc -l) -eq 0 ]; then
-	printf no > /tmp/zypperpatches
-	printf none > /tmp/zypperpatcheslist
-else
-	printf yes > /tmp/zypperpatches
-	zypper -qn lp | grep -v security | grep -v '+--'| grep -v 'tatus' | grep '|' | cut -d '|' -f 2 | sed 's/ //g' | tr '\\n' ' ' > /tmp/zypperpatcheslist
-fi
-
-if [ \$(zypper -qn lp | grep security | grep -v '+--'| grep '|' | grep -v 'tatus' | cut -d '|' -f 2 | sed 's/ //g' | wc -l) -eq 0 ]; then
-	printf no > /tmp/zypperpatchessecurity
-	printf none > /tmp/zypperpatchessecuritylist
-else
-	printf yes > /tmp/zypperpatchessecurity
-	zypper -qn lp | grep security | grep -v '+--'| grep -v 'tatus' | grep '|' | cut -d '|' -f 2 | sed 's/ //g' | tr '\\n' ' ' > /tmp/zypperpatchessecuritylist
-fi
-
-exit 0
-",
-                        path => '/usr/local/bin/zypper_check_updates.sh',
-                        owner => 'root',
-                        group => 'root',
-                        mode => '0755',
-        }
-
-	exec {
-		"zypper-updates":
-			command => '/usr/local/bin/zypper_check_updates.sh',
-			timeout => 60,
+	if $sources {
+		create_resources('zypper::source', $sources)
 	}
 }

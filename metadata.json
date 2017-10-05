@@ -1,12 +1,12 @@
 {
-  "name": "marcelebbrecht/zyppercheckupdates",
+  "name": "marcelebbrecht/zypper",
   "version": "0.1.0",
   "author": "Marcel Ebbrecht",
   "summary": "Updatecheck for zypper",
   "license": "Apache-2.0",
-  "source": "https://github.com/marcelebbrecht/zyppercheckupdates.git",
-  "project_page": "https://github.com/marcelebbrecht/zyppercheckupdates",
-  "issues_url": "https://github.com/marcelebbrecht/zyppercheckupdates/issues",
+  "source": "https://github.com/marcelebbrecht/zypper.git",
+  "project_page": "https://github.com/marcelebbrecht/zypper",
+  "issues_url": "https://github.com/marcelebbrecht/zypper/issues",
   "dependencies": [
     {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
   ],

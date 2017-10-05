@@ -1,0 +1,8 @@
+[<%= $unit %>]
+name=<%= $name %>
+enabled=<%= $enabled %>
+autorefresh=<%= $autorefresh %>
+baseurl=<%= $baseurl %>
+path=<%= $path %>
+type=<%= $type %>
+keeppackages=<%= $keeppackages %>
