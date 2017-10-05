@@ -1,12 +1,12 @@
-# zypper
+# zyppercheckupdates
 
 #### Table of Contents
 
 1. [Description](#description)
-1. [Setup - The basics of getting started with zypper](#setup)
-    * [What zypper affects](#what-zypper-affects)
+1. [Setup - The basics of getting started with zyppercheckupdates](#setup)
+    * [What zyppercheckupdates affects](#what-zyppercheckupdates-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with zypper](#beginning-with-zypper)
+    * [Beginning with zyppercheckupdates](#beginning-with-zyppercheckupdates)
 1. [Usage - Configuration options and additional functionality](#usage)
 1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 1. [Limitations - OS compatibility, etc.](#limitations)
@@ -25,7 +25,7 @@ management, etc.), this is the time to mention it.
 
 ## Setup
 
-### What zypper affects **OPTIONAL**
+### What zyppercheckupdates affects **OPTIONAL**
 
 If it's obvious what your module touches, you can skip this section. For
 example, folks can probably figure out that your mysql_instance module affects
@@ -47,7 +47,7 @@ If your most recent release breaks compatibility or requires particular steps
 for upgrading, you might want to include an additional "Upgrading" section
 here.
 
-### Beginning with zypper
+### Beginning with zyppercheckupdates
 
 The very basic steps needed for a user to get the module up and running. This
 can include setup steps, if necessary, or it can be an example of the most
